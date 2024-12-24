@@ -1,9 +1,9 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider/>
-<MudPopoverProvider/>
-<MudDialogProvider/>
-<MudSnackbarProvider/>
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
 <MudLayout>
     <MudAppBar Color="Color.Inherit" Style="background-color: #4682b4" Fixed="true">
@@ -11,7 +11,9 @@
         <div style="display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 0 16px;">
             <!-- Logo Section: Aligned to the Left -->
             <div style="display: flex; align-items: center;">
-                <img src="img/logo.png" alt="Clínica da Mulher" style="height: 60px;" />
+                <a href="/">
+                    <img src="img/logo.png" alt="Clínica da Mulher" style="height: 60px;" />
+                </a>
             </div>
 
             <!-- Anchor Links in the Center -->
@@ -30,26 +32,16 @@
                 </MudText>
             </div>
 
-            <!-- Social Media Icons: Aligned to the Right -->
-            <div style="display: flex; gap: 8px;">
-                <a href="https://wa.me/1234567890" target="_blank" style="color: inherit;">
-                    <MudIconButton Icon="@Icons.Custom.Brands.WhatsApp" Color="Color.Inherit" />
-                </a>
-                <a href="https://www.instagram.com/yourprofile" target="_blank" style="color: inherit;">
-                    <MudIconButton Icon="@Icons.Custom.Brands.Instagram" Color="Color.Inherit" />
-                </a>
-                <a href="https://www.instagram.com/yourprofile" target="_blank" style="color: inherit;">
-                    <MudIconButton Icon="@Icons.Custom.Brands.Facebook" Color="Color.Inherit" />
-                </a>
-                <a href="https://www.linkedin.com/in/yourprofile" target="_blank" style="color: inherit;">
-                    <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Inherit" />
-                </a>
-            </div>
+            <!-- "Schedule an Appointment" Button -->
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Href="#schedule" Style="margin-left: 20px; color: white; border-color: white;">
+                Schedule an Appointment
+            </MudButton>
         </div>
     </MudAppBar>
 
+    <!-- Main Content -->
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large">
+        <MudContainer MaxWidth="MaxWidth.Medium" Style="padding-top: 20px;">
             @Body
         </MudContainer>
     </MudMainContent>

@@ -1,8 +1,23 @@
 ﻿@page "/"
 @layout UserLayout
+@rendermode InteractiveServer
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Clínica da Mulher</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Cool Index
+<MudCarousel Class="mud-width-full" Style="height:300px;" ShowArrows="true" EnableSwipeGesture="true" AutoCycle="true" TData="object">
+    <MudCarouselItem>
+        <div class="d-flex" style="height:100%">
+            <img src="img/dizzy.jpg" alt="Image 1" class="mx-auto my-auto" style="height: 100%; object-fit: cover;" />
+        </div>
+    </MudCarouselItem>
+    <MudCarouselItem>
+        <div class="d-flex" style="height:100%">
+            <img src="img/image2.jpg" alt="Image 2" class="mx-auto my-auto" style="height: 100%; object-fit: cover;" />
+        </div>
+    </MudCarouselItem>
+    <MudCarouselItem>
+        <div class="d-flex" style="height:100%">
+            <img src="img/image3.jpg" alt="Image 3" class="mx-auto my-auto" style="height: 100%; object-fit: cover;" />
+        </div>
+    </MudCarouselItem>
+</MudCarousel>
