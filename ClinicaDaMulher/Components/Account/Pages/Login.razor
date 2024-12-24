@@ -1,4 +1,5 @@
 ﻿@page "/Account/Login"
+@layout UserLayout
 
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Authentication
@@ -12,11 +13,31 @@
 
 <PageTitle>Log in</PageTitle>
 
-<h1>Log in</h1>
+<MudText Typo="Typo.h4" Align="Align.Center" Style="color: #4682b4" Class="mb-4">Log in</MudText>
+
+<MudGrid>
+    <MudItem xs="12" md="6">
+        <MudPaper Class="p-4">
+            <StatusMessage Message="@errorMessage" />
+            <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
+                <DataAnnotationsValidator />
+                <MudText Typo="Typo.h6" Class="mb-2">Use a local account to log in.</MudText>
+                
+            </EditForm>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <MudPaper Class="p-4">
+            <MudText Typo="Typo.h6">Use another service to log in.</MudText>
+            <MudDivider Class="mb-4" />
+            <ExternalLoginPicker />
+        </MudPaper>
+    </MudItem>
+</MudGrid>
 <div class="row">
     <div class="col-lg-6">
         <section>
-            <StatusMessage Message="@errorMessage" />
+
             <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />
                 <h2>Use a local account to log in.</h2>

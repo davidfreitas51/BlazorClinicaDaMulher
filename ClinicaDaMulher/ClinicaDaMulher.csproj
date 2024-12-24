@@ -15,4 +15,8 @@
     <PackageReference Include="MudBlazor" Version="7.15.0" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="powershell -Command &quot;Stop-Process -Name 'ClinicaDaMulher' -Force -ErrorAction SilentlyContinue; exit 0&quot;" />
+  </Target>
+
 </Project>

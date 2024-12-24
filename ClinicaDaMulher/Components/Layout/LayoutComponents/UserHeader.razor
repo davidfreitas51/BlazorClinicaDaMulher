@@ -1,0 +1,32 @@
+﻿<MudAppBar Color="Color.Inherit" Style="background-color: #4682b4" Fixed="true">
+    <!-- Flexbox container with logo aligned left, links centered, and social icons right -->
+    <div style="display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 0 16px;">
+        <!-- Logo Section: Aligned to the Left -->
+        <div style="display: flex; align-items: center;">
+            <a href="/">
+                <img src="img/logo.png" alt="Clínica da Mulher" style="height: 60px;" />
+            </a>
+        </div>
+
+        <!-- Anchor Links in the Center -->
+        <div style="display: flex; gap: 30px; justify-content: center; align-items: center; flex-grow: 1;">
+            <MudText Typo="Typo.h6">
+                <a href="/services" style="color: inherit; text-decoration: none;">Services</a>
+            </MudText>
+            <MudText Typo="Typo.h6">
+                <a href="/about" style="color: inherit; text-decoration: none;">About</a>
+            </MudText>
+            <MudText Typo="Typo.h6">
+                <a href="/contact" style="color: inherit; text-decoration: none;">Contact</a>
+            </MudText>
+            <MudText Typo="Typo.h6">
+                <a href="/team" style="color: inherit; text-decoration: none;">Team</a>
+            </MudText>
+        </div>
+
+        <!-- "Schedule an Appointment" Button -->
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" Href="/auth" Style="margin-left: 20px; color: white; border-color: white;">
+            Schedule an Appointment
+        </MudButton>
+    </div>
+</MudAppBar>

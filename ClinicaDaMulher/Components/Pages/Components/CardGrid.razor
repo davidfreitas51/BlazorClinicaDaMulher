@@ -1,0 +1,22 @@
+﻿<MudGrid>
+    @foreach (var item in Items)
+    {
+        <MudItem xs="12" sm="4" md="4">
+            <MudCard>
+                <MudCardMedia Image="@item.Image" Height="200" />
+                <MudCardContent>
+                    <MudText Typo="Typo.h5">@item.Title</MudText>
+                    <MudText Typo="Typo.body2">@item.Description</MudText>
+                    <MudText Typo="Typo.body2">@item.AdditionalInfo</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text" Style="color: #4682b4">Learn More</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    }
+</MudGrid>
+
+@code {
+    [Parameter] public List<CardItem> Items { get; set; }
+}

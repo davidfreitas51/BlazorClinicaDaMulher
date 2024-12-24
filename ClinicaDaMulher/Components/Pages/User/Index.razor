@@ -1,0 +1,115 @@
+﻿@page "/"
+@layout UserLayout
+@rendermode InteractiveServer
+
+<PageTitle>Clínica da Mulher</PageTitle>
+
+<MudCarousel Class="mud-width-full" Style="height:500px;" ShowBullets="false" ShowArrows="true" EnableSwipeGesture="true" AutoCycle="true" TData="object">
+    <MudCarouselItem Transition="Transition.Fade">
+        <div class="d-flex" style="height:100%; width: 100%; overflow: hidden;">
+            <img src="img/woman-doctor.jpg" alt="Image 1" class="mx-auto my-auto" style="height: 100%; width: 100%; object-fit: cover;" />
+        </div>
+    </MudCarouselItem>
+    <MudCarouselItem Transition="Transition.Fade">
+        <div class="d-flex" style="height:100%; width: 100%; overflow: hidden;">
+            <img src="img/united-women.jpg" alt="Image 2" class="mx-auto my-auto" style="height: 100%; width: 100%; object-fit: cover;" />
+        </div>
+    </MudCarouselItem>
+    <MudCarouselItem Transition="Transition.Fade">
+        <div class="d-flex" style="height:100%; width: 100%; overflow: hidden;">
+            <img src="img/mom-daughter.jpg" alt="Image 3" class="mx-auto my-auto" style="height: 100%; width: 100%; object-fit: cover;" />
+        </div>
+    </MudCarouselItem>
+</MudCarousel>
+
+
+<br/>
+<br/>
+<br/>
+
+<CardGrid Items="cardItems" />
+
+<br/>
+<br/>
+<br/>
+
+<MudGrid>
+    <MudItem xs="12" sm="6" md="6">
+        <MudCard>
+            <MudCardMedia Image="img/obstetrics.jpg" Height="400" />
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="6">
+        <MudCard>
+            <MudCardContent>
+                <MudText Typo="Typo.h5" Align="Align.Start">Our Services</MudText>
+                <MudText Typo="Typo.body1" Align="Align.Start">
+                    We provide comprehensive and personalized healthcare for women, addressing a wide range of needs. From fertility treatments and breast health screenings to gynecological care and obstetrics, we offer specialized services designed to support women at every stage of life. Our team of skilled professionals works together to deliver high-quality care in a compassionate environment, focusing on the diverse health needs of women.
+                </MudText>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Style="width: 100%; color: #4682b4">
+                    Check our Services
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<br />
+
+<MudGrid>
+    <MudItem xs="12" sm="6" md="6">
+        <MudCard>
+            <MudCardContent>
+                <MudText Typo="Typo.h5" Align="Align.Start">Pink October - Breast Cancer Awareness</MudText>
+                <MudText Typo="Typo.body1" Align="Align.Start">
+                    Pink October is a time to raise awareness about breast cancer and encourage women to prioritize their health. This month reminds us of the importance of regular self-examinations and screenings, which can help detect breast cancer in its early stages when treatment is most effective. We are committed to spreading knowledge and supporting efforts to fight breast cancer. Let’s unite in raising awareness and supporting women’s health.
+                </MudText>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Style="width: 100%; color: #4682b4">
+                    Learn More
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="6">
+        <MudCard>
+            <MudCardMedia Image="img/pink-october.jpg" Height="285" />
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<br />
+<br />
+<br />
+
+@code {
+    private List<CardItem> cardItems = new()
+    {
+        new CardItem
+        {
+            Image = "img/personal-care.jpg",
+            Title = "Personal Care",
+            Description = "We offer comprehensive natal care, ensuring the health and well-being of both mother and child.",
+            AdditionalInfo = "Our team of specialists provides personalized care throughout the pregnancy and postpartum period."
+        },
+        new CardItem
+        {
+            Image = "img/telemedicine.jpg",
+            Title = "Telemedicine",
+            Description = "We now offer telemedicine services, allowing you to consult with healthcare professionals remotely.",
+            AdditionalInfo = "Access medical consultations and advice from the comfort of your home, especially during these challenging times."
+        },
+        new CardItem
+        {
+            Image = "img/portal.jpg",
+            Title = "Patient Portal",
+            Description = "Access your patient portal for easy management of your health records, appointments, and more.",
+            AdditionalInfo = "Stay connected to your healthcare team and view your medical history at any time with our secure portal."
+        }
+    };
+}
