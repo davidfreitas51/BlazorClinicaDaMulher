@@ -1,0 +1,74 @@
+﻿@page "/auth"
+@layout UserLayout
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Authorization
+@inject IDialogService DialogService
+@attribute [Authorize]
+
+<MudPopoverProvider></MudPopoverProvider>
+<MudDialogProvider></MudDialogProvider>
+
+<PageTitle>Auth</PageTitle>
+
+<br />
+<br />
+<AuthorizeView>
+    <MudText Typo="Typo.h4">Welcome, @context.User.Identity?.Name!</MudText>
+    <br />
+    <br />
+    <MudContainer MaxWidth="MaxWidth.Large">
+        <div style="position: relative; width: 100%">
+            <MudStack Row="true" Class="width-100">
+                <MudText Typo="Typo.h4"
+                         Style="color: #4682b4; position: absolute; left: 50%; transform: translateX(-50%); width: auto;"
+                         Class="text-center">
+                    Scheduled Appointments
+                </MudText>
+                <div style="margin-left: auto;">
+                    <MudButton Style="background-color: #4682b4; color: white"
+                               Variant="Variant.Filled"
+                               StartIcon="@Icons.Material.Filled.Add"
+                               OnClick="ScheduleNewAppointment">
+                        Schedule Appointment
+                    </MudButton>
+                </div>
+            </MudStack>
+        </div>
+        <br />
+
+        <AppointmentsTable appointments="appointments"></AppointmentsTable>
+        
+    </MudContainer>
+    <br />
+    <br />
+</AuthorizeView>
+
+@code {
+    public List<Appointment> appointments = new()
+    {
+        new Appointment { Id = 1, UserId = 101, AppointmentDate = DateOnly.FromDateTime(DateTime.Now), AppointmentTime = DateTime.Now.AddHours(1), Reason = "Routine Checkup" },
+        new Appointment { Id = 2, UserId = 102, AppointmentDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1)), AppointmentTime = DateTime.Now.AddHours(2), Reason = "Follow-up" },
+        new Appointment { Id = 3, UserId = 103, AppointmentDate = DateOnly.FromDateTime(DateTime.Now.AddDays(2)), AppointmentTime = DateTime.Now.AddHours(3), Reason = "Consultation" }
+    };
+
+    private async Task ScheduleNewAppointment()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var result = await DialogService.Show<CreateUpdateAppointmentDialog>("Schedule New Appointment", options).Result;
+
+        if (!result.Canceled)
+        {
+            var newAppointment = (CreateUpdateAppointmentDialog.AppointmentModel)result.Data;
+
+            // Add the new appointment to the list (adjust for your logic)
+            appointments.Add(new Appointment
+            {
+                Id = appointments.Count + 1,
+                UserId = 0, // Replace with appropriate UserId
+                AppointmentDate = DateOnly.FromDateTime(newAppointment.AppointmentDate.Value),
+                AppointmentTime = DateTime.Now.Date.Add(newAppointment.AppointmentTime.Value),
+                Reason = newAppointment.Reason
+            });
+        }
+    }
+}

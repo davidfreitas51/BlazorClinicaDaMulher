@@ -15,6 +15,14 @@
     <PackageReference Include="MudBlazor" Version="7.15.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+    <Folder Include="wwwroot\img\about\" />
+    <Folder Include="wwwroot\img\contact\" />
+    <Folder Include="wwwroot\img\services\" />
+    <Folder Include="wwwroot\img\team\" />
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="powershell -Command &quot;Stop-Process -Name 'ClinicaDaMulher' -Force -ErrorAction SilentlyContinue; exit 0&quot;" />
   </Target>

@@ -1,0 +1,65 @@
+﻿@using System.ComponentModel.DataAnnotations
+@rendermode InteractiveServer
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">Schedule New Appointment</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudForm Model="@model" @ref="form">
+            <MudDatePicker
+                @bind-Date="model.AppointmentDate"
+                Label="Date"
+                Required="true"
+                Class="mb-4"/>
+
+            <MudTimePicker
+                @bind-Time="model.AppointmentTime"
+                Label="Time"
+                Required="true"
+                Class="mb-4"/>
+
+            <MudTextField
+                @bind-Value="model.Reason"
+                Label="Reason"
+                Required="true"
+                Class="mb-4"/>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Schedule</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    private MudForm form;
+    private AppointmentModel model = new();
+
+    private async Task Submit()
+    {
+        await form.Validate();
+
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(model));
+        }
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    public class AppointmentModel
+    {
+        [Required]
+        public DateTime? AppointmentDate { get; set; }
+
+        [Required]
+        public TimeSpan? AppointmentTime { get; set; }
+
+        [Required]
+        public string Reason { get; set; }
+    }
+}

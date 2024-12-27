@@ -1,0 +1,48 @@
+﻿@if (appointments.Count == 0)
+{
+    <MudText Typo="Typo.h6" Align="Align.Center">You have no scheduled appointments</MudText>
+}
+else
+{
+    <MudTable Items="@appointments" Hover="true" SortLabel="Sort By">
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="new Func<Appointment, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Appointment, object>(x=>x.UserId)">User ID</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Appointment, object>(x=>x.AppointmentDate)">Date</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Appointment, object>(x=>x.AppointmentTime)">Time</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<Appointment, object>(x=>x.Reason)">Reason</MudTableSortLabel></MudTh>
+            <MudTh>Actions</MudTh>
+        </HeaderContent>
+        <RowTemplate Context="model">
+            <MudTd DataLabel="ID">@model.Id</MudTd>
+            <MudTd DataLabel="User ID">@model.UserId</MudTd>
+            <MudTd DataLabel="Date">@model.AppointmentDate</MudTd>
+            <MudTd DataLabel="Time">@model.AppointmentTime.ToShortTimeString()</MudTd>
+            <MudTd DataLabel="Reason">@model.Reason</MudTd>
+            <MudTd DataLabel="Actions">
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Style="color: #4682b4" Size="Size.Small" OnClick="() => EditAppointment(model.Id)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="() => DeleteAppointment(model.Id)" />
+            </MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+        </PagerContent>
+    </MudTable>
+}
+
+@code {
+    [Parameter]
+    public List<Appointment> appointments { get; set; }
+
+    private void EditAppointment(int appointmentId)
+    {
+        // Implement the logic for editing an appointment
+        Console.WriteLine($"Editing appointment with ID: {appointmentId}");
+    }
+
+    private void DeleteAppointment(int appointmentId)
+    {
+        // Implement the logic for deleting an appointment
+        Console.WriteLine($"Deleting appointment with ID: {appointmentId}");
+    }
+}

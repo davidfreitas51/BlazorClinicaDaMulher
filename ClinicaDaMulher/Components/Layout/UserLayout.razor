@@ -1,20 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
-<MudPopoverProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
-
 <PageTitle>Clínica da Mulher</PageTitle>
 
-<MudLayout>
-    <UserHeader/>
-    
-    <MudMainContent>
+<MudLayout style="display: flex; flex-direction: column; min-height: 100vh;">
+    <UserHeader />
+
+    <MudMainContent style="flex: 1;">
         <MudContainer MaxWidth="MaxWidth.Large">
             @Body
         </MudContainer>
     </MudMainContent>
-    
-    <UserFooter/>
+
+    <div style="flex-shrink: 0;">
+        <UserFooter />
+    </div>
 </MudLayout>
