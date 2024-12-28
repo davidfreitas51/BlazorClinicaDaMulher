@@ -1,0 +1,43 @@
+﻿
+<MudGrid Spacing="0">
+    @foreach (var serviceItem in ServiceList)
+    {
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard>
+                <div style="position: relative;">
+                    <!-- Image -->
+                    <MudCardMedia Image="@serviceItem.ImageUrl" Height="285" Style="border-radius: 0;" />
+
+                    <!-- Dark Overlay -->
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3);"></div>
+
+                    <!-- Text Overlay -->
+                    <div style="position: absolute; 
+                    top: 50%; 
+                    left: 50%; 
+                    transform: translate(-50%, -50%); 
+                    color: white; 
+                    font-size: 2rem; 
+                    font-weight: bold; 
+                    font-family: 'Cera PRO', sans-serif; 
+                    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); 
+                    text-align: center;">
+                        @serviceItem.Title
+                    </div>
+                </div>
+            </MudCard>
+        </MudItem>
+    }
+</MudGrid>
+
+
+@code {
+    [Parameter]
+    public List<ServiceItem> ServiceList { get; set; }
+    
+    public class ServiceItem
+    {
+        public string ImageUrl { get; set; }
+        public string Title { get; set; }
+    }
+}
