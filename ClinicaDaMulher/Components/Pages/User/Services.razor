@@ -2,8 +2,89 @@
 @layout UserLayout
 @rendermode InteractiveServer
 
-<PageTitle>Clínica da Mulher</PageTitle>
+<PageTitle>Our Services</PageTitle>
+
+<br/>
+<br/>
+<br/>
+
+<MudGrid>
+    <MudItem xs="12" sm="6" md="6">
+        <MudCard>
+            <MudCardContent>
+                <MudText Class="card-title" Typo="Typo.h4" Align="Align.Center">Our Range of Services</MudText>
+                <MudText Typo="Typo.body1" Align="Align.Start">
+                    With our extensive network of specialists and comprehensive range of services, we provide you with more integrated care. All of our healthcare professionals collaborate closely to ensure a seamless experience. Within our network, you have access to a diverse array of specialists who are closely connected to your primary care providers.
+                    <br/>
+                    <br/>
+                    Moreover, we’ve made it easier than ever to access care from the comfort of your home, with a telemedicine program designed to connect you with the right professionals, whenever and wherever you need.
+                </MudText>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="6">
+        <MudCard>
+            <MudCardMedia Image="img/landing-page/pink-october.jpg" Height="285" />
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+<br/>
+<br/>
+<br/>
+
+<MudGrid Spacing="0">
+    @foreach (var imageItem in ImageList)
+    {
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard>
+                <div style="position: relative;">
+                    <!-- Image -->
+                    <MudCardMedia Image="@imageItem.ImageUrl" Height="285" Style="border-radius: 0;" />
+
+                    <!-- Dark Overlay -->
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3);"></div>
+
+                    <!-- Text Overlay -->
+                    <div style="position: absolute; 
+                    top: 50%; 
+                    left: 50%; 
+                    transform: translate(-50%, -50%); 
+                    color: white; 
+                    font-size: 2rem; 
+                    font-weight: bold; 
+                    font-family: 'Cera PRO', sans-serif; 
+                    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); 
+                    text-align: center;">
+                        @imageItem.Title
+                    </div>
+                </div>
+            </MudCard>
+        </MudItem>
+    }
+</MudGrid>
+
+<br/>
+<br/>
+<br/>
 
 @code {
-    
+    public class ImageItem
+    {
+        public string ImageUrl { get; set; }
+        public string Title { get; set; }
+    }
+
+    public List<ImageItem> ImageList { get; set; } = new List<ImageItem>
+    {
+        new ImageItem { ImageUrl = "img/services/behaviour.jpg", Title = "Behavioral Health" },
+        new ImageItem { ImageUrl = "img/services/breast-health.jpg", Title = "Breast Health" },
+        new ImageItem { ImageUrl = "img/services/fertility.jpg", Title = "Fertility Services" },
+        new ImageItem { ImageUrl = "img/services/genetics.jpg", Title = "Genetics Counseling" },
+        new ImageItem { ImageUrl = "img/services/maternal-fetal-medicine.jpg", Title = "Maternal & Fetal Medicine" },
+        new ImageItem { ImageUrl = "img/services/obstetrics-service.jpg", Title = "Obstetrics Services" },
+        new ImageItem { ImageUrl = "img/services/rejuvenation.jpg", Title = "Rejuvenation Services" },
+        new ImageItem { ImageUrl = "img/services/weight-management.jpg", Title = "Weight Management" }
+    };
 }
