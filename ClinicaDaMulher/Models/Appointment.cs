@@ -1,6 +1,4 @@
-﻿using ClinicaDaMulher.Data;
-
-namespace ClinicaDaMulher.Models;
+﻿namespace ClinicaDaMulher.Models;
 
 public class Appointment
 {

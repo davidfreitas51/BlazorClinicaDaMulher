@@ -37,7 +37,7 @@
         <br />
 
         <AppointmentsTable appointments="appointments"></AppointmentsTable>
-        
+
     </MudContainer>
     <br />
     <br />
@@ -50,6 +50,11 @@
         new Appointment { Id = 2, UserId = 102, AppointmentDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1)), AppointmentTime = DateTime.Now.AddHours(2), Reason = "Follow-up" },
         new Appointment { Id = 3, UserId = 103, AppointmentDate = DateOnly.FromDateTime(DateTime.Now.AddDays(2)), AppointmentTime = DateTime.Now.AddHours(3), Reason = "Consultation" }
     };
+
+    protected override async Task OnInitializedAsync()
+    {
+        appointments = await _appointmentsRepository.GetByUserIdAsync(1);
+    }
 
     private async Task ScheduleNewAppointment()
     {

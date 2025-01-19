@@ -8,27 +8,27 @@
     <DialogContent>
         <MudForm Model="@model" @ref="form">
             <MudDatePicker
-                @bind-Date="model.AppointmentDate"
-                Label="Date"
-                Required="true"
-                Class="mb-4"/>
+            @bind-Date="model.AppointmentDate"
+            Label="Date"
+            Required="true"
+            Class="mb-4"/>
 
             <MudTimePicker
-                @bind-Time="model.AppointmentTime"
-                Label="Time"
-                Required="true"
-                Class="mb-4"/>
+            @bind-Time="model.AppointmentTime"
+            Label="Time"
+            Required="true"
+            Class="mb-4"/>
 
             <MudTextField
-                @bind-Value="model.Reason"
-                Label="Reason"
-                Required="true"
-                Class="mb-4"/>
+            @bind-Value="model.Reason"
+            Label="Reason"
+            Required="true"
+            Class="mb-4"/>
         </MudForm>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit">Schedule</MudButton>
+        <MudButton style="color: #4682b4" OnClick="Submit">Schedule</MudButton>
     </DialogActions>
 </MudDialog>
 
@@ -43,10 +43,20 @@
     {
         await form.Validate();
 
-        if (form.IsValid)
+        if (!form.IsValid)
         {
-            MudDialog.Close(DialogResult.Ok(model));
+            return;
         }
+
+        MudDialog.Close(DialogResult.Ok(model));
+
+        await _appointmentsRepository.AddAsync(new Appointment
+        {
+            UserId = 1,
+            //AppointmentDate = model.AppointmentDate,
+            //AppointmentTime = model.AppointmentTime,
+            Reason = model.Reason
+        });
     }
 
     private void Cancel() => MudDialog.Cancel();
