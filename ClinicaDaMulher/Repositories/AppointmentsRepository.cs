@@ -10,7 +10,7 @@ namespace ClinicaDaMulher.Repositories
         Task<IEnumerable<Appointment>> GetAllAsync();
         Task<List<Appointment>> GetByUserIdAsync(int userId);
         Task<Appointment> Add(Appointment appointment);
-        Task UpdateAsync(Appointment appointment);
+        Task<bool> UpdateAsync(Appointment appointment);
         Task<bool> DeleteAsync(int id);
     }
 
@@ -49,10 +49,11 @@ namespace ClinicaDaMulher.Repositories
         }
 
 
-        public async Task UpdateAsync(Appointment appointment)
+        public async Task<bool> UpdateAsync(Appointment appointment)
         {
             _context.Appointments.Update(appointment);
             await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> DeleteAsync(int id)

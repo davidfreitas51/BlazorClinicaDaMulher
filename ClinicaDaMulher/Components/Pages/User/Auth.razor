@@ -58,32 +58,35 @@
 
     private async Task ScheduleNewAppointment()
     {
+        var parameters = new DialogParameters { { "Title", "Schedule New Appointment" } };
         var options = new DialogOptions { CloseOnEscapeKey = true };
-        var result = await DialogService.Show<CreateUpdateAppointmentDialog>("Schedule New Appointment", options).Result;
+
+        var result = await DialogService.Show<CreateUpdateAppointmentDialog>("Dialog", parameters, options).Result;
+
 
         if (!result.Canceled)
         {
-            var newAppointmentModel = (CreateUpdateAppointmentDialog.AppointmentModel)result.Data;
-            var appointmentToAdd = new Appointment
-                {
-                    UserId = 1,
-                    AppointmentDate = DateOnly.FromDateTime(newAppointmentModel.AppointmentDate.Value),
-                    AppointmentTime = DateTime.Now.Date.Add(newAppointmentModel.AppointmentTime.Value),
-                    Reason = newAppointmentModel.Reason
-                };
+            var newAppointmentModel = result.Data as AppointmentModel;
+                var appointmentToAdd = new Appointment
+                    {
+                        UserId = 1,
+                        AppointmentDate = DateOnly.FromDateTime(newAppointmentModel.AppointmentDate.Value),
+                        AppointmentTime = DateTime.Now.Date.Add(newAppointmentModel.AppointmentTime.Value),
+                        Reason = newAppointmentModel.Reason
+                    };
 
-            var addedAppointment = await _appointmentsRepository.Add(appointmentToAdd);
-            if (addedAppointment != null)
-            {
-                appointments.Add(addedAppointment);
-                StateHasChanged();
-                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
-                Snackbar.Add("Appointment successfully scheduled!", Severity.Success);
+                var addedAppointment = await _appointmentsRepository.Add(appointmentToAdd);
+                if (addedAppointment != null)
+                {
+                    appointments.Add(addedAppointment);
+                    StateHasChanged();
+                    Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
+                    Snackbar.Add("Appointment successfully scheduled!", Severity.Success);
+                }
+                else
+                {
+                    Snackbar.Add("Failed to schedule appointment.", Severity.Error);
+                }
             }
-            else
-            {
-                Snackbar.Add("Failed to schedule appointment.", Severity.Error);
-            }
-        }
     }
 }

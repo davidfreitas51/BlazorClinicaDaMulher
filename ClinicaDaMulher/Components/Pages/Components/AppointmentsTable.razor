@@ -24,7 +24,7 @@ else
             <MudTd DataLabel="Time">@model.AppointmentTime.ToShortTimeString()</MudTd>
             <MudTd DataLabel="Reason">@model.Reason</MudTd>
             <MudTd DataLabel="Actions">
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" Style="color: #4682b4" Size="Size.Small" OnClick="() => EditAppointment(model.Id)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Style="color: #4682b4" Size="Size.Small" OnClick="() => EditAppointment(model)" />
                 <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="() => DeleteAppointment(model.Id)" />
             </MudTd>
         </RowTemplate>
@@ -41,9 +41,52 @@ else
     [Parameter]
     public EventCallback<int> OnAppointmentDeleted { get; set; }
 
-    private async Task EditAppointment(int appointmentId)
+    private async Task EditAppointment(Appointment appointment)
     {
-        Console.WriteLine($"Editing appointment with ID: {appointmentId}");
+        AppointmentModel model = new AppointmentModel
+            {
+                AppointmentDate = DateTime.Now,
+                AppointmentTime = System.TimeSpan.FromHours(9),
+                Reason = appointment.Reason
+            };
+
+        var parameters = new DialogParameters
+        {
+            { "Title", "Update Appointment" },
+            { "model", model }
+        };
+
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var result = await DialogService.Show<CreateUpdateAppointmentDialog>("Dialog", parameters, options).Result;
+
+        if (!result.Canceled)
+        {
+            var updatedModel = result.Data as AppointmentModel;
+
+            appointment.AppointmentDate = DateOnly.FromDateTime(updatedModel.AppointmentDate.Value);
+            appointment.AppointmentTime = DateTime.Now;
+            appointment.Reason = updatedModel.Reason;
+        }
+
+        var success = await _appointmentsRepository.UpdateAsync(appointment);
+
+        if (success)
+        {
+            // Reflect the changes in the UI
+            var index = Appointments.FindIndex(a => a.Id == appointment.Id);
+            if (index != -1)
+            {
+                Appointments[index] = appointment;
+                StateHasChanged();
+            }
+
+            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
+            Snackbar.Add("Appointment successfully updated!", Severity.Success);
+        }
+        else
+        {
+            Snackbar.Add("Failed to update appointment.", Severity.Error);
+        }
     }
 
     private async Task DeleteAppointment(int appointmentId)

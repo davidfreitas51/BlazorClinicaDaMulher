@@ -3,7 +3,7 @@
 
 <MudDialog>
     <TitleContent>
-        <MudText Typo="Typo.h6">Schedule New Appointment</MudText>
+        <MudText Typo="Typo.h6">@Title</MudText>
     </TitleContent>
     <DialogContent>
         <MudForm Model="@model" @ref="form">
@@ -36,8 +36,11 @@
     [CascadingParameter]
     MudDialogInstance MudDialog { get; set; }
 
+    [Parameter] public string Title { get; set; }
+
     private MudForm form;
-    private AppointmentModel model = new();
+    [Parameter]
+    public AppointmentModel model { get; set; }= new();
 
     private async Task Submit()
     {
@@ -60,16 +63,4 @@
     }
 
     private void Cancel() => MudDialog.Cancel();
-
-    public class AppointmentModel
-    {
-        [Required]
-        public DateTime? AppointmentDate { get; set; }
-
-        [Required]
-        public TimeSpan? AppointmentTime { get; set; }
-
-        [Required]
-        public string Reason { get; set; }
-    }
 }

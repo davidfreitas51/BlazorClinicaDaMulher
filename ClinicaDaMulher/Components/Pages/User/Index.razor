@@ -5,18 +5,6 @@
 
 <PageTitle>Clínica da Mulher</PageTitle>
 
-<MudButton @onclick="ShowMessage" Color="Color.Primary">
-    Show Message
-</MudButton>
-
-@code {
-    private void ShowMessage()
-    {
-        Snackbar.Add("This is a simple message", Severity.Normal);
-    }
-}
-
-
 <MudCarousel Class="mud-width-full" Style="height:500px;" ShowBullets="false" ShowArrows="true" EnableSwipeGesture="true" AutoCycle="true" TData="object">
     <MudCarouselItem Transition="Transition.Fade">
         <div class="d-flex" style="height:100%; width: 100%; overflow: hidden;">
