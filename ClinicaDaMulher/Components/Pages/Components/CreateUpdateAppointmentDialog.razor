@@ -50,7 +50,7 @@
 
         MudDialog.Close(DialogResult.Ok(model));
 
-        await _appointmentsRepository.AddAsync(new Appointment
+        await _appointmentsRepository.Add(new Appointment
         {
             UserId = 1,
             //AppointmentDate = model.AppointmentDate,

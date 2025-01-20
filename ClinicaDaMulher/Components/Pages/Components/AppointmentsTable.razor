@@ -2,14 +2,13 @@
 @inject ISnackbar Snackbar
 
 <MudSnackbarProvider />
-
-@if (appointments.Count == 0)
+@if (Appointments.Count == 0)
 {
     <MudText Typo="Typo.h6" Align="Align.Center">You have no scheduled appointments</MudText>
 }
 else
 {
-    <MudTable Items="@appointments" Hover="true" SortLabel="Sort By">
+    <MudTable Items="@Appointments" Hover="true" SortLabel="Sort By">
         <HeaderContent>
             <MudTh><MudTableSortLabel SortBy="new Func<Appointment, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortBy="new Func<Appointment, object>(x=>x.UserId)">User ID</MudTableSortLabel></MudTh>
@@ -37,32 +36,38 @@ else
 
 @code {
     [Parameter]
-    public List<Appointment> appointments { get; set; }
+    public List<Appointment> Appointments { get; set; } = new();
 
-    private void EditAppointment(int appointmentId)
+    [Parameter]
+    public EventCallback<int> OnAppointmentDeleted { get; set; }
+
+    private async Task EditAppointment(int appointmentId)
     {
-        // Implement the logic for editing an appointment
         Console.WriteLine($"Editing appointment with ID: {appointmentId}");
     }
 
-    private async void DeleteAppointment(int appointmentId)
+    private async Task DeleteAppointment(int appointmentId)
     {
         var parameters = new DialogParameters
         {
             { "Title", "Confirmation" },
-            { "Message", "Are you sure you want to delete this item?" }
+            { "Message", "Are you sure you want to delete this appointment?" }
         };
-        var result = await DialogService.Show<ConfirmationDialog>("", parameters).Result;
 
+        var result = await DialogService.Show<ConfirmationDialog>("", parameters).Result;
         if (!result.Canceled)
         {
-            await _appointmentsRepository.DeleteAsync(appointmentId);
-            appointments = appointments.Where(a => a.Id != appointmentId).ToList();
-            StateHasChanged();
-
-            Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
-            Snackbar.Add("Appointment successfully deleted!", Severity.Error);
-
+            var success = await _appointmentsRepository.DeleteAsync(appointmentId);
+            if (success)
+            {
+                await OnAppointmentDeleted.InvokeAsync(appointmentId);
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
+                Snackbar.Add("Appointment successfully deleted!", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("Failed to delete appointment.", Severity.Error);
+            }
         }
     }
 }

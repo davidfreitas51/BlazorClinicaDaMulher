@@ -9,9 +9,9 @@ namespace ClinicaDaMulher.Repositories
         Task<Appointment> GetByIdAsync(int id);
         Task<IEnumerable<Appointment>> GetAllAsync();
         Task<List<Appointment>> GetByUserIdAsync(int userId);
-        Task AddAsync(Appointment appointment);
+        Task<Appointment> Add(Appointment appointment);
         Task UpdateAsync(Appointment appointment);
-        Task DeleteAsync(int id);
+        Task<bool> DeleteAsync(int id);
     }
 
     public class AppointmentRepository : IAppointmentRepository
@@ -40,11 +40,14 @@ namespace ClinicaDaMulher.Repositories
                                  .ToListAsync();
         }
 
-        public async Task AddAsync(Appointment appointment)
+        public async Task<Appointment> Add(Appointment appointment)
         {
-            await _context.Appointments.AddAsync(appointment);
-            await _context.SaveChangesAsync();
+            var result = _context.Appointments.Add(appointment);
+            _context.SaveChanges();
+
+            return result.Entity;
         }
+
 
         public async Task UpdateAsync(Appointment appointment)
         {
@@ -52,14 +55,16 @@ namespace ClinicaDaMulher.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var appointment = await _context.Appointments.FindAsync(id);
             if (appointment != null)
             {
                 _context.Appointments.Remove(appointment);
                 await _context.SaveChangesAsync();
+                return true;
             }
+            return false;
         }
     }
 }

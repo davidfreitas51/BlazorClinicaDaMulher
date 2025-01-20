@@ -3,18 +3,15 @@
 @rendermode InteractiveServer
 @using Microsoft.AspNetCore.Authorization
 @inject IDialogService DialogService
+@inject ISnackbar Snackbar
 @attribute [Authorize]
 
 <MudPopoverProvider></MudPopoverProvider>
 <MudDialogProvider></MudDialogProvider>
-
 <PageTitle>Auth</PageTitle>
 
-<br />
-<br />
 <AuthorizeView>
     <MudText Typo="Typo.h4">Welcome, @context.User.Identity?.Name!</MudText>
-    <br />
     <br />
     <MudContainer MaxWidth="MaxWidth.Large">
         <div style="position: relative; width: 100%">
@@ -35,25 +32,28 @@
             </MudStack>
         </div>
         <br />
-
-        <AppointmentsTable appointments="appointments"></AppointmentsTable>
-
+        <AppointmentsTable Appointments="@appointments" OnAppointmentDeleted="HandleAppointmentDeleted" />
     </MudContainer>
-    <br />
-    <br />
 </AuthorizeView>
 
 @code {
-    public List<Appointment> appointments = new()
-    {
-        new Appointment { Id = 1, UserId = 101, AppointmentDate = DateOnly.FromDateTime(DateTime.Now), AppointmentTime = DateTime.Now.AddHours(1), Reason = "Routine Checkup" },
-        new Appointment { Id = 2, UserId = 102, AppointmentDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1)), AppointmentTime = DateTime.Now.AddHours(2), Reason = "Follow-up" },
-        new Appointment { Id = 3, UserId = 103, AppointmentDate = DateOnly.FromDateTime(DateTime.Now.AddDays(2)), AppointmentTime = DateTime.Now.AddHours(3), Reason = "Consultation" }
-    };
+    private List<Appointment> appointments = new();
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadAppointments();
+    }
+
+    private async Task LoadAppointments()
+    {
         appointments = await _appointmentsRepository.GetByUserIdAsync(1);
+        StateHasChanged();
+    }
+
+    private async Task HandleAppointmentDeleted(int appointmentId)
+    {
+        appointments.RemoveAll(a => a.Id == appointmentId);
+        StateHasChanged();
     }
 
     private async Task ScheduleNewAppointment()
@@ -63,17 +63,27 @@
 
         if (!result.Canceled)
         {
-            var newAppointment = (CreateUpdateAppointmentDialog.AppointmentModel)result.Data;
+            var newAppointmentModel = (CreateUpdateAppointmentDialog.AppointmentModel)result.Data;
+            var appointmentToAdd = new Appointment
+                {
+                    UserId = 1,
+                    AppointmentDate = DateOnly.FromDateTime(newAppointmentModel.AppointmentDate.Value),
+                    AppointmentTime = DateTime.Now.Date.Add(newAppointmentModel.AppointmentTime.Value),
+                    Reason = newAppointmentModel.Reason
+                };
 
-            // Add the new appointment to the list (adjust for your logic)
-            appointments.Add(new Appointment
+            var addedAppointment = await _appointmentsRepository.Add(appointmentToAdd);
+            if (addedAppointment != null)
             {
-                Id = appointments.Count + 1,
-                UserId = 0, // Replace with appropriate UserId
-                AppointmentDate = DateOnly.FromDateTime(newAppointment.AppointmentDate.Value),
-                AppointmentTime = DateTime.Now.Date.Add(newAppointment.AppointmentTime.Value),
-                Reason = newAppointment.Reason
-            });
+                appointments.Add(addedAppointment);
+                StateHasChanged();
+                Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
+                Snackbar.Add("Appointment successfully scheduled!", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("Failed to schedule appointment.", Severity.Error);
+            }
         }
     }
 }
